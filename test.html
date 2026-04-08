@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulsent Recorder — Test Page</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f5f5f5; color: #111; }
+
+    header {
+      background: #18181b; color: white;
+      padding: 16px 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    header h1 { font-size: 16px; font-weight: 600; }
+    #status {
+      margin-left: auto; font-size: 12px; padding: 4px 10px;
+      border-radius: 999px; background: #3f3f46; color: #a1a1aa;
+    }
+    #status.ready { background: #14532d; color: #86efac; }
+
+    main { max-width: 800px; margin: 32px auto; padding: 0 24px; display: flex; flex-direction: column; gap: 24px; }
+
+    .card {
+      background: white; border-radius: 12px; border: 1px solid #e4e4e7;
+      padding: 20px;
+    }
+    .card h2 { font-size: 14px; font-weight: 600; color: #52525b; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    button {
+      padding: 8px 16px; border-radius: 8px; border: 1px solid #e4e4e7;
+      background: white; cursor: pointer; font-size: 14px; transition: background 0.1s;
+    }
+    button:hover { background: #f4f4f5; }
+    button.primary { background: #18181b; color: white; border-color: #18181b; }
+    button.primary:hover { background: #3f3f46; }
+    button.danger { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+
+    input, select, textarea {
+      padding: 8px 12px; border-radius: 8px; border: 1px solid #e4e4e7;
+      font-size: 14px; width: 100%;
+    }
+    label { font-size: 13px; color: #52525b; display: block; margin-bottom: 4px; }
+    .field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 180px; }
+
+    #counter {
+      font-size: 48px; font-weight: 700; text-align: center;
+      padding: 16px; color: #18181b;
+    }
+
+    #log {
+      font-family: monospace; font-size: 12px;
+      background: #18181b; color: #a1a1aa;
+      border-radius: 8px; padding: 12px;
+      height: 220px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    #log .entry { display: flex; gap: 8px; }
+    #log .ts { color: #52525b; flex-shrink: 0; }
+    #log .msg { color: #e4e4e7; }
+    #log .msg.ok { color: #86efac; }
+    #log .msg.warn { color: #fde047; }
+    #log .msg.err { color: #fca5a5; }
+
+    .tabs { display: flex; gap: 2px; margin-bottom: 16px; }
+    .tab {
+      padding: 6px 14px; border-radius: 6px; font-size: 13px;
+      cursor: pointer; color: #71717a;
+    }
+    .tab.active { background: #f4f4f5; color: #18181b; font-weight: 500; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
+  <h1>Pulsent Recorder — Test</h1>
+  <span id="status">Initialising…</span>
+</header>
+
+<main>
+
+  <!-- Interactions -->
+  <div class="card">
+    <h2>Interactions</h2>
+    <div class="row">
+      <button class="primary" onclick="increment()">Click me (+1)</button>
+      <button onclick="randomScroll()">Scroll page</button>
+      <button onclick="toggleModal()">Open modal</button>
+      <button class="danger" onclick="triggerError()">Throw JS error</button>
+    </div>
+    <div id="counter">0</div>
+  </div>
+
+  <!-- Form -->
+  <div class="card">
+    <h2>Form</h2>
+    <form onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:12px">
+      <div class="row">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" placeholder="Ada Lovelace" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" placeholder="ada@example.com" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Plan</label>
+        <select>
+          <option>Free</option>
+          <option>Pro</option>
+          <option>Enterprise</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Message</label>
+        <textarea rows="3" placeholder="Type something…"></textarea>
+      </div>
+      <div class="row">
+        <button type="submit" class="primary">Submit form</button>
+        <button type="reset">Reset</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabs (navigation-like) -->
+  <div class="card">
+    <h2>Tab navigation</h2>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('a')">Overview</div>
+      <div class="tab" onclick="switchTab('b')">Analytics</div>
+      <div class="tab" onclick="switchTab('c')">Settings</div>
+    </div>
+    <div id="tab-a" class="tab-panel active"><p style="color:#71717a;font-size:14px">Overview content — click the tabs to generate navigation events.</p></div>
+    <div id="tab-b" class="tab-panel"><p style="color:#71717a;font-size:14px">Analytics content — some charts would go here.</p></div>
+    <div id="tab-c" class="tab-panel"><p style="color:#71717a;font-size:14px">Settings content — forms and toggles.</p></div>
+  </div>
+
+  <!-- Log -->
+  <div class="card">
+    <h2>SDK log</h2>
+    <div id="log"></div>
+    <div class="row" style="margin-top:10px">
+      <button onclick="document.getElementById('log').innerHTML=''">Clear log</button>
+      <button onclick="forceSessionEnd()">Force session end</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- Modal -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:100">
+  <div class="card" style="max-width:400px;width:90%">
+    <h2>Modal</h2>
+    <p style="font-size:14px;color:#52525b;margin:12px 0">This is a modal dialog — rrweb should capture the overlay and content.</p>
+    <button onclick="toggleModal()">Close</button>
+  </div>
+</div>
+
+<!-- PostHog + PulsentRecorder via ESM (avoids OpaqueResponseBlocking on file://) -->
+<script type="module">
+  import posthog from 'https://cdn.jsdelivr.net/npm/posthog-js@1/+esm';
+  import { PulsentRecorder } from 'https://cdn.jsdelivr.net/npm/pulsent-recorder@0.1.4/dist/index.js';
+
+  posthog.init('phc_2Fch5uIVwUGhhOhob6Rfg8hfrvmcGmxHWDm0zlNMp6z', {
+    api_host: 'https://eu.i.posthog.com',
+    defaults: '2026-01-30',
+    loaded: function(ph) {
+      log('PostHog loaded — session: ' + ph.get_session_id(), 'ok');
+
+      const recorder = PulsentRecorder.init({
+        posthog: ph,
+        debug: true,
+        apiHost: 'http://localhost:8000',
+      });
+
+      window._recorder = recorder;
+      document.getElementById('status').textContent = 'Recording';
+      document.getElementById('status').classList.add('ready');
+      log('PulsentRecorder ready → http://localhost:8000', 'ok');
+    }
+  });
+</script>
+
+<script>
+  // Intercept console to show SDK logs in the panel
+  const _origLog = console.log.bind(console);
+  const _origWarn = console.warn.bind(console);
+  console.log = (...args) => { _origLog(...args); if (args[0] === '[pulsent-recorder]') logRaw(args.slice(1).join(' '), 'ok'); };
+  console.warn = (...args) => { _origWarn(...args); if (args[0] === '[pulsent-recorder]') logRaw(args.slice(1).join(' '), 'warn'); };
+
+  function logRaw(msg, type = '') {
+    const el = document.getElementById('log');
+    const ts = new Date().toLocaleTimeString('en', { hour12: false });
+    el.insertAdjacentHTML('beforeend', `<div class="entry"><span class="ts">${ts}</span><span class="msg ${type}">${msg}</span></div>`);
+    el.scrollTop = el.scrollHeight;
+  }
+  function log(msg, type = '') { logRaw(msg, type); }
+
+  // Counter
+  let count = 0;
+  function increment() {
+    count++;
+    document.getElementById('counter').textContent = count;
+  }
+
+  // Scroll
+  function randomScroll() {
+    window.scrollTo({ top: Math.random() * document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // Modal
+  function toggleModal() {
+    const m = document.getElementById('modal');
+    m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  // Error
+  function triggerError() {
+    try { null.boom(); } catch(e) { log('JS error thrown: ' + e.message, 'err'); }
+  }
+
+  // Form
+  function handleSubmit(e) {
+    e.preventDefault();
+    log('Form submitted', 'ok');
+  }
+
+  // Tabs
+  function switchTab(id) {
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', ['a','b','c'][i] === id));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + id));
+  }
+
+  // Force session end
+  function forceSessionEnd() {
+    window.dispatchEvent(new Event('beforeunload'));
+    log('Dispatched beforeunload → session end beacon sent', 'warn');
+  }
+</script>
+
+</body>
+</html>
