@@ -1,6 +1,6 @@
 {
   "name": "pulsent-recorder",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "First-party session recording SDK for Pulsent",
   "type": "module",
   "main": "./dist/index.cjs",
