@@ -2,6 +2,12 @@
   "name": "pulsent-recorder",
   "version": "0.2.5",
   "description": "First-party session recording SDK for Pulsent",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pulsentlabs/pulsent-recorder.git"
+  },
+  "homepage": "https://github.com/pulsentlabs/pulsent-recorder#readme",
+  "bugs": "https://github.com/pulsentlabs/pulsent-recorder/issues",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
