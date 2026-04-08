@@ -1,5 +1,10 @@
 # pulsent-recorder
 
+[![npm version](https://img.shields.io/npm/v/pulsent-recorder.svg)](https://www.npmjs.com/package/pulsent-recorder)
+[![npm downloads](https://img.shields.io/npm/dm/pulsent-recorder.svg)](https://www.npmjs.com/package/pulsent-recorder)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pulsentlabs/pulsent-recorder#license)
+[![Release](https://github.com/pulsentlabs/pulsent-recorder/actions/workflows/release.yml/badge.svg)](https://github.com/pulsentlabs/pulsent-recorder/actions/workflows/release.yml)
+
 First-party session recording SDK for [Pulsent](https://pulsent.ai). If your app already runs [PostHog](https://posthog.com), this SDK hooks directly into its recording pipeline so you get full-fidelity sessions in Pulsent — with no second recorder, no extra CPU, and no duplicate work.
 
 ---
@@ -142,6 +147,12 @@ Removes all event listeners and stops forwarding snapshots. Optional — only ne
 
 - `posthog-js` must be initialized with **session recording enabled** before calling `PulsentRecorder.init`
 - The PostHog project token must be registered in your Pulsent workspace settings
+
+---
+
+## Releases
+
+Changelogs live on the [GitHub Releases page](https://github.com/pulsentlabs/pulsent-recorder/releases). Every published version has human-written release notes describing what changed and any migration steps. Each npm version is also signed with [provenance](https://docs.npmjs.com/generating-provenance-statements), so you can trace any release on npm back to the exact GitHub Actions run and source commit that built it.
 
 ---
 

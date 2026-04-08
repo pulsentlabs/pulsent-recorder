@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "tsup": "^8.5.0",
